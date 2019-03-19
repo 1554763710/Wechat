@@ -1,6 +1,6 @@
 const express = require("express");
 const sha1 = require("sha1");
-var {parseString} = require('xml2js');
+const {getData , setObj , simplifyObj} = require("./tools/tools");
 
 const app = express();
 
@@ -23,26 +23,11 @@ app.use( async (req,res) =>{
             return;
         }
         // 得到客户发送的数据
-        const xmlData = await new Promise((resolve ,reject) =>{
-            let xmlData = "";
-            // 接收到的数据
-            req.on("data" , data =>{
-                xmlData += data.toString();
-            }).on("end" , () =>{
-                // 数据接收完成
-                resolve(xmlData)
-            })
-        })
+        const xmlData = await getData(req);
         // 将 xml 数据转为 js 对象
-        let jsData = null;
-        parseString(xmlData, function (err, result) {
-            jsData = result;
-        });
+        let jsData = setObj(xmlData);
         // js 对象简化
-        let newJsData = {};
-        for(const key in jsData.xml){
-            newJsData[key] = jsData.xml[key][0];
-        }
+        let newJsData = simplifyObj(jsData);
         /* { ToUserName: 'gh_4f5a976449de',
             FromUserName: 'o6HZg1TckBEEkr4Tu5amb2JHHTEk',
             CreateTime: '1552993577',
