@@ -1,22 +1,57 @@
-// 获取 access_token
-// https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=APPID&secret=APPSECRET
-
+const fetchAT = require("./getAT");
 const rq = require("request-promise-native");
-const { writeFile } = require("fs");
-// 发送请求,获取access_token,设置过期时间
-async function getAccessToken(){
-    const url = `https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wx69bdfca5513761b1&secret=cc90b34fa9976f546c937f5c4bdad6cb`;
-    
-    const result = await rq({
-        method : "GET",
-        url,
-        json : true
-    })
-    result.expires_in = Date.now() + 7200000 -300000;
-    writeFile("./node/wenchat/wechat/accesstoken.txt" ,JSON.stringify(result) ,err =>{
-        if(!err) console.log("文件保存成功");
-        else console.log(err);
-    })
+
+const menu =  {
+    "button":[
+    {    
+         "type":"click",
+         "name":"今日歌曲",
+         "key":"V1001_TODAY_MUSIC"
+     },
+     {
+          "name":"菜单",
+          "sub_button":[
+          {    
+              "type":"view",
+              "name":"搜索",
+              "url":"http://www.soso.com/"
+           },
+           {
+                "type":"miniprogram",
+                "name":"wxa",
+                "url":"http://mp.weixin.qq.com",
+                "appid":"wx286b93c14bbf93aa",
+                "pagepath":"pages/lunar/index"
+            },
+           {
+              "type":"click",
+              "name":"赞一下我们",
+              "key":"V1001_GOOD"
+           }]
+      }]
+}
+
+async function createMenu(){
+    const { access_token } = await fetchAT();
+    const url = `https://api.weixin.qq.com/cgi-bin/menu/create?access_token=${access_token}`;
+
+    // 发送post请求
+    const result = rq({method : "POST" ,url ,json : true ,body : menu}); 
     return result;
 }
-getAccessToken()
+
+async function deleteMenu(){
+    const { access_token } = await fetchAT();
+    const url = `https://api.weixin.qq.com/cgi-bin/menu/delete?access_token=${access_token}`;
+
+    // 发送post请求
+    const result = rq({method : "POST" ,url ,json : true });
+    return result;
+}
+
+(async ()=>{
+    let result = await deleteMenu();
+    console.log(result);
+    result = await createMenu();
+    console.log(result);
+})();
