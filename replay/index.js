@@ -3,6 +3,8 @@
 const sha1 = require("sha1");
 const {getData , setObj , simplifyObj} = require("../tools/tools");
 const type = require("./type");
+const responces = require("./responces")
+
 module.exports = () =>{
     return async (req,res) =>{
         const {signature ,echostr ,timestamp ,nonce} = req.query;
@@ -36,25 +38,10 @@ module.exports = () =>{
                 MsgId: '22233525050256383' } */
             // 设置自动发送消息(文本)
             
-            let content = "哈哈哈哈哈";
-            let options = {
-                toUserName : newJsData.FromUserName,
-                fromUserName : newJsData.ToUserName,
-                createTime : Date.now(),
-                type : "text",
-                content : content
-            }
-
-            if(newJsData.Content === "1"){
-               content = "嘻嘻嘻嘻嘻嘻";
-            }else if(newJsData.Content === "2"){
-                content = "呵呵呵呵呵";
-            }
-            if(newJsData.MsgType === "image"){
-                options.type = "image";
-                options.mediaid = newJsData.MediaId;
-            }
+            
+            const options = responces(newJsData);
             const text = type(options);
+            console.log(text);
             res.send(text);
         }
     }
