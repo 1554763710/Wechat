@@ -3,11 +3,11 @@ module.exports = (newJsData) =>{
         toUserName : newJsData.FromUserName,
         fromUserName : newJsData.ToUserName,
         createTime : Date.now(),
-        type : "text",
-        content : "哈哈哈哈哈"
+        type : "text"
     }
 
     if(newJsData.MsgType === "text"){
+        options.content = "哈哈哈哈哈";
         if(newJsData.Content === "1"){
             options.content = "嘻嘻嘻嘻嘻嘻";
         }else if(newJsData.Content && newJsData.Content.indexOf("2") !== -1){
@@ -33,6 +33,10 @@ module.exports = (newJsData) =>{
             console.log("取关");
             options.content = "";
         }
+    }else if(newJsData.MsgType === "image"){
+        options.type = "image";
+        options.mediaid = newJsData.MediaId;
+        options.content = "";
     }
     return options;
 }

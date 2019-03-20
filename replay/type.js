@@ -10,7 +10,7 @@ module.exports =  (options) =>{
     }else if(options.type === "image"){
         text += `<Image>
         <MediaId><![CDATA[${options.mediaid}]]></MediaId>
-      </Image>`;
+      </Image>`; 
     }else if (options.type === 'voice') {
         text += `<Voice>
         <MediaId><![CDATA[${options.mediaId}]]></MediaId>
