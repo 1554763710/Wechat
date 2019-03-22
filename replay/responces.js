@@ -1,3 +1,5 @@
+
+const {url} = require("../config");
 module.exports = (newJsData) =>{
     let options = {
         toUserName : newJsData.FromUserName,
@@ -10,8 +12,10 @@ module.exports = (newJsData) =>{
         options.content = "哈哈哈哈哈";
         if(newJsData.Content === "1"){
             options.content = "嘻嘻嘻嘻嘻嘻";
-        }else if(newJsData.Content && newJsData.Content.indexOf("2") !== -1){
+        }else if(newJsData.Content.indexOf("2") !== -1){
             options.content = "呵呵呵呵呵";
+        }else if(newJsData.Content === "3"){
+            options.content = `<a href="${url}/search">语音识别页面</a>`;
         }
     } else if(newJsData.MsgType === "voice"){
         options.content = newJsData.Recognition;

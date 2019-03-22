@@ -3,12 +3,12 @@
 const sha1 = require("sha1");
 const {getData , setObj , simplifyObj} = require("../tools/tools");
 const type = require("./type");
-const responces = require("./responces")
+const responces = require("./responces");
+const {token} = require("../config")
 
 module.exports = () =>{
     return async (req,res) =>{
         const {signature ,echostr ,timestamp ,nonce} = req.query;
-        const token = "weixingongzonghao_guo";
         const shaText = sha1([token,timestamp,nonce].sort().join(""));
     
         if(req.method === "GET"){

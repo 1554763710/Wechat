@@ -1,36 +1,38 @@
 const fetchAT = require("./getAT");
 const rq = require("request-promise-native");
 
-const menu =  {
-    "button":[
-    {    
-         "type":"click",
-         "name":"今日歌曲",
-         "key":"V1001_TODAY_MUSIC"
-     },
-     {
-          "name":"菜单",
-          "sub_button":[
-          {    
-              "type":"view",
-              "name":"搜索",
-              "url":"http://www.soso.com/"
-           },
-           {
-                "type":"miniprogram",
-                "name":"wxa",
-                "url":"http://mp.weixin.qq.com",
-                "appid":"wx286b93c14bbf93aa",
-                "pagepath":"pages/lunar/index"
-            },
-           {
-              "type":"click",
-              "name":"赞一下我们",
-              "key":"V1001_GOOD"
-           }]
-      }]
-}
-const URL_PREFIX = "https://api.weixin.qq.com/cgi-bin/";
+const {menu, URL_PREFIX} = require("../config");
+
+// const menu =  {
+//     "button":[
+//     {    
+//          "type":"click",
+//          "name":"今日歌曲",
+//          "key":"V1001_TODAY_MUSIC"
+//      },
+//      {
+//           "name":"菜单",
+//           "sub_button":[
+//           {    
+//               "type":"view",
+//               "name":"搜索",
+//               "url":"http://www.soso.com/"
+//            },
+//            {
+//                 "type":"miniprogram",
+//                 "name":"wxa",
+//                 "url":"http://mp.weixin.qq.com",
+//                 "appid":"wx286b93c14bbf93aa",
+//                 "pagepath":"pages/lunar/index"
+//             },
+//            {
+//               "type":"click",
+//               "name":"赞一下我们",
+//               "key":"V1001_GOOD"
+//            }]
+//       }]
+// }
+// const URL_PREFIX = "https://api.weixin.qq.com/cgi-bin/";
 // 创建菜单
 async function createMenu(){
     const { access_token } = await fetchAT();
@@ -112,20 +114,20 @@ async function messageSendAll(body){
     // console.log(result3);
 
     // 得到标签名
-    // let result = await getTags();
-    // console.log(result);
+    let result = await getTags();
+    console.log(result);
 
     // 通过标签群发消息
-    const body = {
-        "filter":{
-           "is_to_all":true,
-           "tag_id":100
-        },
-        "text":{
-           "content":"吃鸡"
-        },
-         "msgtype":"text"
-    }
-    let result = await messageSendAll(body);
-    console.log(result);
+    // const body = {
+    //     "filter":{
+    //        "is_to_all":true,
+    //        "tag_id":100
+    //     },
+    //     "text":{
+    //        "content":"吃鸡"
+    //     },
+    //      "msgtype":"text"
+    // }
+    // let result = await messageSendAll(body);
+    // console.log(result);
 })();

@@ -3,9 +3,10 @@
 
 const rq = require("request-promise-native");
 const { write , read} = require("../tools/tools");
+const {URL_PREFIX, appId, appSecret} = require("../config")
 // 发送请求,获取access_token,设置过期时间
 async function getAccessToken(){
-    const url = `https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wx69bdfca5513761b1&secret=cc90b34fa9976f546c937f5c4bdad6cb`;
+    const url = `${URL_PREFIX}token?grant_type=client_credential&appid=${appId}&secret=${appSecret}`;
     
     const result = await rq({
         method : "GET",

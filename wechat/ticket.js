@@ -4,10 +4,11 @@
 const rq = require("request-promise-native");
 const { write , read} = require("../tools/tools");
 const fetchAT = require("./getAT");
+const {URL_PREFIX} = require("../config");
 // 发送请求,获取access_token,设置过期时间
 async function getTicket(){
     const { access_token } = await fetchAT();
-    const url = `https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=${access_token}&type=jsapi`;
+    const url = `${URL_PREFIX}ticket/getticket?access_token=${access_token}&type=jsapi`;
     
     const ticket = await rq({
         method : "GET",
@@ -19,7 +20,7 @@ async function getTicket(){
     write("ticket.txt" ,newTicket);
     return ticket;
 }
-function fetchTicket(){
+module.exports = function fetchTicket(){
     return read("ticket.txt")
     .then(data =>{
         if( data.expires_in > Date.now()){
