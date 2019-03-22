@@ -122,7 +122,7 @@ async function messageSendAll(body){
            "tag_id":100
         },
         "text":{
-           "content":"大吉大利"
+           "content":"吃鸡"
         },
          "msgtype":"text"
     }

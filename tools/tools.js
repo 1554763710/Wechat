@@ -1,5 +1,7 @@
 
 const {parseString} = require('xml2js');
+const { writeFile , readFile} = require("fs");
+const { resolve } = require("path");
 
 module.exports = {
     // 得到客户发送的数据
@@ -30,5 +32,28 @@ module.exports = {
             newJsData[key] = jsData.xml[key][0];
         }
         return newJsData;
+    },
+    // 写入文件
+    write (fileUrl , data){
+        fileUrl = resolve(__dirname ,"../wechat" ,fileUrl)
+        return new Promise( (resolve ,reject) =>{
+            writeFile(fileUrl ,JSON.stringify(data) ,err =>{
+                if(!err) resolve("文件保存成功");
+                else reject(err);
+            })
+        })
+    },
+    // 读取文件
+    read (fileUrl){
+        fileUrl = resolve(__dirname ,"../wechat" ,fileUrl)
+        return new Promise((resolve ,reject) =>{
+            readFile(fileUrl, (err ,data)=>{
+                if(!err){
+                    resolve(JSON.parse(data));
+                }else {
+                    reject(err);
+                }
+            })
+        })
     }
 }
