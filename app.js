@@ -3,11 +3,14 @@ const sha1 = require("sha1");
 const replay = require("./replay/index");
 const {appId , url} = require("./config");
 const fetchTicket = require("./wechat/ticket");
+const {resolve} = require("path");
 
 const app = express();
 
 app.set("views" , "views");
 app.set("view engine" , "ejs");
+
+app.use(express.static(resolve(__dirname,"images")));
 
 app.get("/search", async (req, res) =>{
     const {ticket} = await fetchTicket();
@@ -28,4 +31,5 @@ app.use(replay());
 app.listen(3000,err =>{
     if(!err) console.log("服务器启动成功");
     else console.log(err);
-})              
+})  
+
